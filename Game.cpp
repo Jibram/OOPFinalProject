@@ -33,6 +33,7 @@ Game::Game(){
 }
 
 void Game::action(){
+    // THis is cursed code, fix this
     for (int i = 0; i < obstacles.size(); i++){
         if (obstacles[i]->getY() < -1){
             obstacles.push_back(new Obstacle("mushroom.png", 0.5, 0.5, 0.5, 0.5));
