@@ -2,7 +2,7 @@
 #include <iostream>
 
 TextBox::TextBox(
-        const char* text,
+        std::string text,
         float x,
         float y,
         void* font,
@@ -25,11 +25,10 @@ TextBox::TextBox(
 
 void TextBox::draw() const {
     glColor3f(r, g, b);
-    float offset = 0;
-    for (int i = 0; i < text.length(); i++) {
-        glRasterPos2f(x+offset, y);
-        glutBitmapCharacter(font, text[i]);
-        int w = glutBitmapWidth(font, text[i]);
-        offset += ((float)w / width)*2;
-    }
-    }
+    glRasterPos2d(x, y);
+    glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_24, reinterpret_cast<const unsigned char *>(text.c_str()));
+}
+
+void TextBox::setText(std::string text){
+    this->text = text;
+}

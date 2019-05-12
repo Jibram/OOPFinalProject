@@ -17,7 +17,7 @@ class TextBox: public Shape {
 public:
     TextBox(
             
-            const char* = "My TextBox",
+            std::string = "My TextBox",
             float = 0,
             float = 0,
             void* = GLUT_BITMAP_HELVETICA_18,
@@ -28,6 +28,7 @@ public:
     );
     
     void draw() const;
+    void setText(std::string);
 };
 
 #endif /* TextBox_hpp */

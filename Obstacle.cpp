@@ -1,21 +1,13 @@
 #include "Obstacle.h"
+#include <iostream>
 
-Obstacle::Obstacle(char* filename, float x, float y, float w, float h){
-    obstacle = new TexRect(filename, x, y, w, h);
+Obstacle::Obstacle(char* filename, float x, float y, float w, float h, float speed): TexRect(filename, x, y, w, h), speed(speed){
+
 }
 
-void Obstacle::draw() const{
-    obstacle->draw(.7);
-}
-
-void Obstacle::setY(float val){
-    obstacle->setY(val);
-}
-
-float Obstacle::getY(){
-    return obstacle->getY();
+float Obstacle::getSpeed(){
+    return this->speed;
 }
 
 Obstacle::~Obstacle(){
-    
 }

@@ -11,12 +11,12 @@
 class Game: public AppComponent, private Timer{
     TexRect* car;
     Background* background; 
-    std::vector<Obstacle*> obstacles;
+    std::vector<Rect*> obstacles;
     bool left;
     bool right;
     bool carVisible;
-    bool crashed;
     int level;
+    int score;
     
     //void setObstacleFileNames(std::vector<std::string>);
 public:
@@ -24,6 +24,7 @@ public:
     Game();
     
     void draw() const ;
+    int getScore() const;
     void handleKeyDown(unsigned char, float, float);
     
     void action();

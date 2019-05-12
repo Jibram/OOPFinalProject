@@ -1,7 +1,8 @@
 #include "Rect.h"
+#include <iostream>
 
 Rect::Rect(float x, float y, float w, float h, float r, float g, float b): x(x), y(y), w(w), h(h), r(r), g(g), b(b){
-    
+
 }
 
 float Rect::getX() const {

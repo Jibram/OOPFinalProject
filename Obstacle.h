@@ -4,21 +4,14 @@
 #include "TexRect.h"
 #include <string>
 
-class Obstacle{
+class Obstacle : public TexRect{
 
-    char* filename;
-
-    TexRect* obstacle;
-
+    float speed;
 public:
 
-    Obstacle(char*, float, float, float, float);
+    Obstacle(char*, float, float, float, float, float);
 
-    void draw() const;
-
-    void setY(float);
-
-    float getY();
+    float getSpeed();
 
     ~Obstacle();
 
