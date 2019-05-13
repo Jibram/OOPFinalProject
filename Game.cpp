@@ -13,15 +13,16 @@
 
 Game::Game(){
 	const char* carFileName;
-    //const char* fireballFileName;
+    const char* fireballFileName;
 
 	carFileName = "./images/carWithProf.png";
-	//fireballFileName = "fireball.bmp";
+	fireballFileName = "fireball.bmp";
 
     background = new Background("./images/road2.png");
     car = new TexRect(carFileName, -0.25, -0.5, .5, .5);
-    obstacles.push_back(new Rect( -0.25, 1.0, .5, .5, 1, 1, 1));
-    //explosion = new AnimatedRect(fireballFileName, 6, 6, 64, false, false, -0.25, 0.8, 0.5, 0.5);
+    object1 = new Obstacle("mushroom.png", -0.25, 1.0, .5, .5, 0.001);
+    object2 = new Obstacle("mushroom.png", 5, 5, .5, .5, 0.001);
+    prof = new TexRect("./images/prof.png", 5, 5, .2, .35);
 
     left = false;
     right = false;
@@ -29,42 +30,56 @@ Game::Game(){
     level = 1;
     score = 0;
     setRate(1);
-    start();
+    stop();
 }
 
 void Game::action(){
-    bool passed = false;
-    for (int i = 0; i < obstacles.size(); i++){
-        if (obstacles[i]->contains(car->getX()+car->getW()/2, car->getY()) || obstacles[i]->contains(car->getX()+car->getW()/2, car->getY()-car->getH()/2)){
+    if (carVisible){
+
+        if (object1->contains(car->getX()+car->getW()/2, car->getY()) || 
+            object1->contains(car->getX()+car->getW()/2, car->getY()-car->getH()/2) || 
+            object2->contains(car->getX()+car->getW()/2, car->getY()) || 
+            object2->contains(car->getX()+car->getW()/2, car->getY()-car->getH()/2)){
+
             carVisible = false;
-        } else if (obstacles[i]->getY() < -1){
-            obstacles.erase(obstacles.begin()+i);
-            i--;
-            obstacles.push_back(new Rect(rand()%3*1.25-1.5, 1.5, 0.5, 0.5, 1, 1, 1));
-            passed = true;
+            prof->setX(car->getX());
+            prof->setY(car->getY());
+        
+        } else if (object1->getY() < -1 || object2->getY() < -1){
+            object1->setX(rand()%3*1.25-1.5);
+            object1->setY(1.5);
+            if (level > 1){
+                object2->setX(rand()%3*1.25-1.5);
+                object2->setY(1.5);
+            }
+            score++;
+            level = score / 10 + 1;
+            background->setText(score, level);
         } else {
-            obstacles[i]->setY(obstacles[i]->getY()-level*0.001);
+            object1->setY(object1->getY()-level*object1->getSpeed());
+            if (level > 1){
+                object2->setY(object2->getY()-level*object2->getSpeed());
+            }
         }
     }
-    if (passed){
-        score++;
-        level = score / 10 + 1;
-        background->setText(score, level);
-        passed = false;
-    }
-    if (level > 1 && obstacles.size() < 2){
-        obstacles.push_back(new Rect(rand()%3*1.25-1.5, 1.5, 0.5, 0.5, 1, 1, 1));
+    else {
+        if (prof->getY() < 1.5){
+            prof->setY(prof->getY() + 0.0025);
+        }
     }
 }
 
 void Game::draw() const {
-    background->draw(-0.2);
+    background->draw(0);
     if (carVisible){
-        car->draw(-0.1);
+        car->draw(0.1);
+        object1->draw(0.2);
+        object2->draw(0.2);
     }
-    for (auto it = obstacles.begin(); it != obstacles.end(); ++it){
-        (*it)->draw();
+    else{
+        prof->draw(0.3);
     }
+    
 }
 
 int Game::getScore() const{
@@ -115,6 +130,7 @@ Game::~Game(){
     stop();
     delete car;
     delete background;
-    obstacles.empty();
+    delete object1;
+    delete object2;
     //delete explosion;
 }

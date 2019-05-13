@@ -11,7 +11,9 @@
 class Game: public AppComponent, private Timer{
     TexRect* car;
     Background* background; 
-    std::vector<Rect*> obstacles;
+    Obstacle* object1;
+    Obstacle* object2;
+    TexRect* prof;
     bool left;
     bool right;
     bool carVisible;
@@ -20,7 +22,7 @@ class Game: public AppComponent, private Timer{
     
     //void setObstacleFileNames(std::vector<std::string>);
 public:
-    //AnimatedRect* explosion;
+    AnimatedRect* explosion;
     Game();
     
     void draw() const ;
